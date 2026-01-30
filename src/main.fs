@@ -2,7 +2,7 @@
 \ main for ESP32 GSM
 \    Filename:      main.fs
 \    Date:          29 jan 2026
-\    Updated:       29 jan 2026
+\    Updated:       30 jan 2026
 \    File Version:  1.0
 \    MCU:           ESP32-S3 - ESP32 WROOM
 \    Forth:         ESP32forth all versions 7.0.7.+
@@ -16,11 +16,19 @@ RECORDFILE /spiffs/main.fs
 
 internals 140 to line-width forth
 
-DEFINED? --espGSM [if] forget --espGSM  [then]
+DEFINED? --espGSM [if] 
+    forget --espGSM  
+[then]
 create --espGSM
 
+ESP32-S3? [IF] 
+    include /spiffs/serial1GSM.fs
+[ELSE]
+    include /spiffs/serial2GSM.fs
+[THEN]
+
 include /spiffs/strings.fs
-include /spiffs/serialGSM.fs
+include /spiffs/ATcommands.fs
 
 include /spiffs/tests.fs
 

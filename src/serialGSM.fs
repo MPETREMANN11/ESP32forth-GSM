@@ -15,7 +15,7 @@
 RECORDFILE /spiffs/serialGSM.fs
 
 \ 115200 speed communication
-115200 value SERIAL2_RATE
+0 value SERIAL2_RATE
 
 \ definition of OUTput and INput buffers
 128 string GSM_TX   \ buffer ESP32 -> GSM
@@ -25,8 +25,9 @@ RECORDFILE /spiffs/serialGSM.fs
 also serial \ Select Serial vocabulary
 
 \ initialise Serial2
-: Serial2.init ( -- )
-    SERIAL2_RATE Serial2.begin
+: Serial2.init ( baudRate -- )
+    dup to SERIAL2_RATE
+    Serial2.begin
   ;
 
 \ input from GSM module

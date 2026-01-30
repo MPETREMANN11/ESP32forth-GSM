@@ -1,5 +1,5 @@
 \ *********************************************************************
-\ ASSERT( tool for eForth
+\ ASSERT tool for eForth
 \    Filename:      assert.fs
 \    Date:          06 dec 2023
 \    Updated:       06 dec 2023
@@ -22,6 +22,8 @@
 \ display:
 \   ASSERT : assert( 1 2 + 5 = ) ERROR
 
+
+RECORDFILE /spiffs/assert.fs
 \ value 0 or -1
 -1 value ASSERT_LEVEL
 
@@ -49,4 +51,6 @@ variable assert-start
     then
   ; immediate
 
+cr ." asserts.fs loaded"
+<EOF>
 
