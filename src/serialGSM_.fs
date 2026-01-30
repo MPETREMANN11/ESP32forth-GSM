@@ -2,7 +2,7 @@
 \ serial exchange with GSM module SIM800L
 \    Filename:      main.fs
 \    Date:          29 jan 2026
-\    Updated:       30 jan 2026
+\    Updated:       29 jan 2026
 \    File Version:  1.0
 \    MCU:           ESP32-S3 | ESP32 WROOM
 \    Forth:         ESP32forth all versions 7.0.7.+
@@ -11,51 +11,44 @@
 \    GNU General Public License
 \ **************************************
 
-
 RECORDFILE /spiffs/serialGSM.fs
 
-\ 115200 speed communication
-0 value SERIAL_RATE
+\ store speed communication
+0 value SERIAL2_RATE
 
 \ definition of OUTput and INput buffers
 128 string GSM_TX   \ buffer ESP32 -> GSM
 128 string GSM_RX   \ buffer GSM   -> ESP32
 
+
 also serial \ Select Serial vocabulary
 
 ESP32-S3? [IF] 
-\   \ pins for serial1
-\   18 constant RX1_PIN
-\   18 constant TX1_PIN
-
-\   $800001c constant SERIAL_8N1
-
   : serialBegin  ( bauds -- )
       Serial1.begin
     ;
 
-  : serialAvailable ( -- n )
+  : serialAvailable ( -- fl )
       Serial1.available
     ;
 
-  : SerialReadBytes ( addr len -- len' )
-      Serial1.readBytes
+  : serialWrite ( addr len -- )
+      Serial1.write
     ;
 [ELSE]
   : serialBegin  ( bauds -- )
       Serial2.begin
     ;
 
-  : serialAvailable ( -- n )
+  : serialAvailable ( -- fl )
       Serial2.available
     ;
 
-  : SerialReadBytes ( addr len -- len' )
-      Serial2.readBytes
+  : serialWrite ( addr len -- )
+      Serial2.write
     ;
 [THEN]
 
-only FORTH
 
 
 \ initialise Serial2
@@ -66,19 +59,17 @@ only FORTH
 
 \ input from GSM module
 : GSMinput ( -- )
-    SerialAvailable if
+    serialAvailable if
         GSM_RX maxlen$ nip
-        SerialReadBytes
+        Serial2.readBytes
         GSM_RX drop cell - !
     else
         0 GSM_RX drop cell - !
     then
   ;
 
+only FORTH
 
 cr ." serialGSM.fs loaded"
 <EOF>
-
-
-
 

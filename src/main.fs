@@ -21,16 +21,13 @@ DEFINED? --espGSM [if]
 [then]
 create --espGSM
 
-ESP32-S3? [IF] 
-    include /spiffs/serial1GSM.fs
-[ELSE]
-    include /spiffs/serial2GSM.fs
-[THEN]
-
 include /spiffs/strings.fs
-include /spiffs/ATcommands.fs
 
-include /spiffs/tests.fs
+include /spiffs/serialGSM.fs
+
+\ include /spiffs/ATcommands.fs
+
+\ include /spiffs/tests.fs
 
 cr ." main.fs loaded "
 

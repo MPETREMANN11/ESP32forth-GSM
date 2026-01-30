@@ -22,7 +22,6 @@ struct __STRING
     ptr field ->realLength   \ real length of string
     ptr field ->strContent   \ string content
 
-only FORTH
 
 \ compare two strings
 : $= ( addr1 len1 addr2 len2 --- fl)
@@ -57,8 +56,8 @@ only FORTH
   ;
 
 \ Example:
-: s1
-    s" this is constant string" ;
+\ : s1
+\     s" this is constant string" ;
 \ 200 string test
 \ s1 test $!
 
@@ -130,4 +129,6 @@ cr ." strings.fs loaded"
 \ Use:
 \ test input$
 \ test type
+
+
 

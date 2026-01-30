@@ -16,14 +16,23 @@ RECORDFILE /spiffs/tests.fs
 
 include /spiffs/assert.fs
 
-9600 serial2.init
+
+9600 SerialGSM.init
+
+
+
+
+
+<eof>
+
+
 
 
 also serial
 \ test AT
- s" AT" serial2.write
+ s" AT" serialWrite
 200 ms
-GSM_RX 128 Serial2.readBytes  ( a n -- n )
+GSM_RX 128 Serial1.ReadBytes  ( a n -- n )
 
 only FORTH
 
