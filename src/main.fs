@@ -22,15 +22,12 @@ DEFINED? --espGSM [if]
 create --espGSM
 
 include /spiffs/strings.fs
-
 include /spiffs/serialGSM.fs
+include /spiffs/ATcommands.fs
 
-\ include /spiffs/ATcommands.fs
-
-\ include /spiffs/tests.fs
+include /spiffs/tests.fs
 
 cr ." main.fs loaded "
-
 <EOF>
 
 

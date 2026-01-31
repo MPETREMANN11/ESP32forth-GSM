@@ -16,23 +16,44 @@ RECORDFILE /spiffs/tests.fs
 
 include /spiffs/assert.fs
 
+9600 serialBegin
 
-9600 SerialGSM.init
-
-
-
-
-
-<eof>
+cr ." tests.fs loaded"
+<EOF>
 
 
+: tt
+    10 ms  s" AT+IPR=9600" serialWrite drop
+  ;
+
+9600 serialBegin
 
 
-also serial
-\ test AT
- s" AT" serialWrite
+tt tt tt tt tt tt
+
+
+s" AT+IPR?" serialWrite drop
 200 ms
-GSM_RX 128 Serial1.ReadBytes  ( a n -- n )
+GSMInput
+
+
+
+
+
+\ input from LoRa transmitter
+: GSMInput ( -- )
+    SerialAvailable if
+        GSM_RX maxlen$ nip
+        SerialReadBytes
+        GSM_RX drop cell - !
+    else
+        0 GSM_RX drop cell - !
+    then
+  ;
+
+s" AT+IPR?" serialWrite drop
+10 ms
+GSMInput
 
 only FORTH
 
@@ -40,28 +61,6 @@ only FORTH
 cr ." tests.fs loaded"
 <EOF>
 
-
-also serial
-
-9600 Serial2.begin 100 ms
-Serial2.available
-GSM_RX 128 Serial2.readBytes  ( a n -- n )
-
-only FORTH
-
-also serial
-Serial2.available
-only FORTH
-
-also serial
-GSM_RX 128 Serial2.readBytes  ( a n -- n )
-only FORTH
-
-serial
-115200 Serial2.begin        \ initialise UART 2 at 115200 bauds 
-Serial2.available .         \ display 0 
-S" AT" Serial2.write drop   \ send strint "AT" to UART 
-Serial2.available .
 
 
 

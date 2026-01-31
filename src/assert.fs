@@ -51,6 +51,6 @@ variable assert-start
     then
   ; immediate
 
-cr ." asserts.fs loaded"
+cr ." ..asserts.fs loaded"
 <EOF>
 
